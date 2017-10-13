@@ -19,6 +19,7 @@ public class DBHelper {
     private SQLiteDatabase database;
     private String[] POST_TABLE_COLUMNS =
             {
+                    DBUtils.POST_BASEID,
                     DBUtils.POST_ID,
                     DBUtils.POST_USER,
                     DBUtils.POST_TITLE,
@@ -26,6 +27,7 @@ public class DBHelper {
             };
     private String[] COMMENT_TABLE_COLUMNS =
             {
+                    DBUtils.COMMENT_BASEID,
                     DBUtils.COMMENT_ID,
                     DBUtils.COMMENT_POST,
                     DBUtils.COMMENT_NAME,
@@ -43,29 +45,31 @@ public class DBHelper {
         database.close();
     }
 
-    public Comment addComment(int post, String name, String email, String body) {
+    public Comment addComment(int id, int post, String name, String email, String body) {
         ContentValues values = new ContentValues();
+        values.put(DBUtils.COMMENT_ID, id);
         values.put(DBUtils.COMMENT_POST, post);
         values.put(DBUtils.COMMENT_NAME, name);
         values.put(DBUtils.COMMENT_EMAIL, email);
         values.put(DBUtils.COMMENT_BODY, body);
         long commentId = database.insert(DBUtils.COMMENT_TABLE, null, values);
         Cursor cursor = database.query(DBUtils.COMMENT_TABLE, COMMENT_TABLE_COLUMNS,
-                DBUtils.COMMENT_ID + " = " + commentId, null, null, null, null);
+                DBUtils.COMMENT_BASEID + " = " + commentId, null, null, null, null);
         cursor.moveToFirst();
         Comment comment = parseComment(cursor);
         cursor.close();
         return comment;
     }
 
-    public Post addPost(int user, String title, String body) {
+    public Post addPost(int id, int user, String title, String body) {
         ContentValues values = new ContentValues();
+        values.put(DBUtils.POST_ID, id);
         values.put(DBUtils.POST_USER, user);
         values.put(DBUtils.POST_TITLE, title);
         values.put(DBUtils.POST_BODY, body);
         long postId = database.insert(DBUtils.POST_TABLE, null, values);
         Cursor cursor = database.query(DBUtils.POST_TABLE, POST_TABLE_COLUMNS,
-                DBUtils.POST_ID + " = " + postId, null, null, null, null);
+                DBUtils.POST_BASEID + " = " + postId, null, null, null, null);
         cursor.moveToFirst();
         Post post = parsePost(cursor);
         cursor.close();
@@ -114,24 +118,20 @@ public class DBHelper {
 
     private Comment parseComment(Cursor cursor) {
         Comment comment = new Comment();
-        if( cursor != null && cursor.moveToFirst() ) {
-            comment.setId(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_ID)));
-            comment.setPostId(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_POST)));
-            comment.setName(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_NAME)));
-            comment.setEmail(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_EMAIL)));
-            comment.setBody(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_BODY)));
-        }
+        comment.setId(cursor.getInt(cursor.getColumnIndex(DBUtils.COMMENT_ID)) + "");
+        comment.setPostId(cursor.getInt(cursor.getColumnIndex(DBUtils.COMMENT_POST)) + "");
+        comment.setName(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_NAME)));
+        comment.setEmail(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_EMAIL)));
+        comment.setBody(cursor.getString(cursor.getColumnIndex(DBUtils.COMMENT_BODY)));
         return comment;
     }
 
     private Post parsePost(Cursor cursor) {
         Post post = new Post();
-        if( cursor != null && cursor.moveToFirst() ) {
-            post.setId(cursor.getString(cursor.getColumnIndex(DBUtils.POST_ID)));
-            post.setUserId(cursor.getString(cursor.getColumnIndex(DBUtils.POST_USER)));
-            post.setTitle(cursor.getString(cursor.getColumnIndex(DBUtils.POST_TITLE)));
-            post.setBody(cursor.getString(cursor.getColumnIndex(DBUtils.POST_BODY)));
-        }
+        post.setId(cursor.getInt(cursor.getColumnIndex(DBUtils.POST_ID)) + "");
+        post.setUserId(cursor.getInt(cursor.getColumnIndex(DBUtils.POST_USER)) + "");
+        post.setTitle(cursor.getString(cursor.getColumnIndex(DBUtils.POST_TITLE)));
+        post.setBody(cursor.getString(cursor.getColumnIndex(DBUtils.POST_BODY)));
         return post;
     }
 }

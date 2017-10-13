@@ -12,23 +12,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textViewResponse" />
+        android:id="@+id/textString"
+        android:layout_below="@+id/button1"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CLICK"
+        android:text="TEST"
         android:id="@+id/button1"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/buttonSyncC"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/textId" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SYNC POSTS"
         android:id="@+id/buttonSyncP"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/textString"
         android:layout_toEndOf="@+id/button1" />
 
     <Button
@@ -36,6 +40,52 @@
         android:layout_height="wrap_content"
         android:text="SYNC COMMENTS"
         android:id="@+id/buttonSyncC"
+        android:layout_below="@+id/buttonSyncP"
+        android:layout_alignEnd="@+id/buttonSyncP"
+        android:layout_toEndOf="@+id/button1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textString2"
+        android:layout_below="@+id/textString"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/textId"
+        android:text="15"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_alignEnd="@+id/textString" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VIEW POSTS"
+        android:id="@+id/buttonPosts"
+        android:layout_above="@+id/buttonSyncC"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/buttonComments" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VIEW COMMENTS"
+        android:id="@+id/buttonComments"
+        android:layout_above="@+id/button1"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CLEAR TABLES"
+        android:id="@+id/buttonClear"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/buttonSyncP" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textString2" />
+
 </RelativeLayout>
