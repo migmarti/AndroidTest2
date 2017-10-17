@@ -3,6 +3,9 @@ package com.example.mmart.memesaurio.Objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by MMART on 10/6/2017.
  */
@@ -69,6 +72,19 @@ public class Post implements Parcelable {
         print += "Title: " + this.title + "\n";
         print += "Body: " + this.body + "\n";
         return print;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("userId", getUserId());
+            jsonObject.put("title", getTitle());
+            jsonObject.put("body", getBody());
+            return jsonObject;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

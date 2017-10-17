@@ -13,6 +13,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mmart.memesaurio.Objects.Comment;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     TextView txtString, txtString2, txtId;
-    Button btnTest, btnSyncPosts, btnSyncComments, btnViewPosts, btnViewComments, btnClear;
+    Button btnTest, btnSyncPosts, btnSyncComments, btnViewPosts, btnViewComments, btnClear, btnUpload;
     DBHelper db;
     ArrayList<Post> posts;
     ArrayList<Comment> comments;
@@ -48,11 +49,15 @@ public class MainActivity extends AppCompatActivity {
         btnViewPosts = (Button) findViewById((R.id.buttonPosts));
         btnViewComments = (Button) findViewById((R.id.buttonComments));
         btnClear = (Button) findViewById((R.id.buttonClear));
+        btnUpload = (Button) findViewById(R.id.buttonUpload);
         posts = new ArrayList<Post>();
         comments = new ArrayList<Comment>();
         final RequestQueue queue = Volley.newRequestQueue(this);
         String postsUrl = "http://jsonplaceholder.typicode.com/posts";
         String commentsUrl = "http://jsonplaceholder.typicode.com/comments";
+
+        //http://107.170.247.123:2403/posts
+        //http://107.170.247.123:2403/comments
 
         final JsonArrayRequest postsArrayRequest = new JsonArrayRequest(Request.Method.GET, postsUrl,
                 null, new Response.Listener<JSONArray>() {
@@ -193,6 +198,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Comment comment = new Comment();
+                comment.setName("Miguel Martinez");
+                comment.setPostId("1");
+                comment.setEmail("miguel.martinez@cetys.edu.mx");
+                comment.setBody("Bye");
+                JSONObject json = comment.toJSON();
+                JsonObjectRequest jor = uploadJSON(json, "http://107.170.247.123:2403/posts");
+                queue.add(jor);
+            }
+        });
+
     }
 
     public Post createPost(String response) {
@@ -228,5 +247,22 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return comment;
+    }
+
+    public JsonObjectRequest uploadJSON(final JSONObject jsonBody, String url) {
+        final JsonObjectRequest jsonPostRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println("Successfully uploaded object.");
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("JSON: " + jsonBody.toString());
+                        System.out.println("Error uploading: " + error.toString());
+                    }
+                });
+        return jsonPostRequest;
     }
 }
