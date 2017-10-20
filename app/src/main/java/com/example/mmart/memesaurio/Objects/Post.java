@@ -33,6 +33,18 @@ public class Post implements Parcelable {
         this.body = body;
     }
 
+    public Post (String jsonString) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            this.userId = jsonObject.getInt("userId") + "";
+            this.id = jsonObject.getInt("id") + "";
+            this.title = jsonObject.getString("title");
+            this.body = jsonObject.getString("body");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getUserId() {
         return userId;
     }

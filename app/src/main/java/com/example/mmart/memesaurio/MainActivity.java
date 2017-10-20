@@ -25,15 +25,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView txtString, txtString2, txtId;
-    Button btnTest, btnSyncPosts, btnSyncComments, btnViewPosts, btnViewComments, btnClear, btnUpload;
+    Button btnTest, btnSyncPosts, btnSyncComments, btnViewPosts, btnViewComments, btnClear, btnUpload, btnPostsComments;
     DBHelper db;
     ArrayList<Post> posts;
     ArrayList<Comment> comments;
     String postUrl, commentUrl;
+    HashMap<String, List<String>> expandableListDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +53,13 @@ public class MainActivity extends AppCompatActivity {
         btnViewComments = (Button) findViewById((R.id.buttonComments));
         btnClear = (Button) findViewById((R.id.buttonClear));
         btnUpload = (Button) findViewById(R.id.buttonUpload);
+        btnPostsComments = (Button) findViewById(R.id.buttonPostsComments);
         posts = new ArrayList<Post>();
         comments = new ArrayList<Comment>();
         final RequestQueue queue = Volley.newRequestQueue(this);
         String postsUrl = "http://jsonplaceholder.typicode.com/posts";
         String commentsUrl = "http://jsonplaceholder.typicode.com/comments";
+        expandableListDetail = new  HashMap<String, List<String>>();
 
         //http://107.170.247.123:2403/posts
         //http://107.170.247.123:2403/comments
@@ -168,10 +173,25 @@ public class MainActivity extends AppCompatActivity {
         btnViewPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PostsActivity.class);
                 db.open();
-                intent.putExtra("Parcel", db.getAllPosts());
+                posts = db.getAllPosts();
                 db.close();
+                Intent intent = new Intent(getApplicationContext(), PostsActivity.class);
+                intent.putExtra("Parcel", posts);
+                startActivity(intent);
+            }
+        });
+
+        btnPostsComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.open();
+                posts = db.getAllPosts();
+                comments = db.getAllComments();
+                db.close();
+                Intent intent = new Intent(getApplicationContext(), ExpandablePostActivity.class);
+                intent.putExtra("Posts", posts);
+                intent.putExtra("Comments", comments);
                 startActivity(intent);
             }
         });
@@ -259,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("JSON: " + jsonBody.toString());
                         System.out.println("Error uploading: " + error.toString());
                     }
                 });

@@ -18,7 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostsActivity" />
-        <activity android:name=".CommentsActivity"></activity>
+        <activity android:name=".CommentsActivity" />
+        <activity android:name=".ExpandableListActivity" />
+        <activity android:name=".ExpandablePostActivity"></activity>
     </application>
 
 </manifest>
