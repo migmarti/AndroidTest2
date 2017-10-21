@@ -9,31 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.mmart.memesaurio.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textString"
-        android:layout_below="@+id/button1"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TEST"
-        android:id="@+id/button1"
-        android:layout_below="@+id/buttonPostsComments"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/textId" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SYNC POSTS"
         android:id="@+id/buttonSyncP"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/textString"
-        android:layout_toEndOf="@+id/buttonPosts" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/buttonSyncC" />
 
     <Button
         android:layout_width="wrap_content"
@@ -41,15 +24,6 @@
         android:text="SYNC COMMENTS"
         android:id="@+id/buttonSyncC"
         android:layout_below="@+id/buttonSyncP"
-        android:layout_alignEnd="@+id/buttonSyncP"
-        android:layout_toEndOf="@+id/buttonComments" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textString2"
-        android:layout_below="@+id/textString"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
     <EditText
@@ -59,8 +33,9 @@
         android:ems="10"
         android:id="@+id/textId"
         android:text="15"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignEnd="@+id/textString" />
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -86,7 +61,7 @@
         android:id="@+id/buttonClear"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/textString2" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -95,6 +70,7 @@
         android:id="@+id/buttonUpload"
         android:layout_above="@+id/buttonClear"
         android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/buttonSyncC"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -105,5 +81,41 @@
         android:layout_below="@+id/buttonSyncC"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET COMMENT"
+        android:id="@+id/buttonAsyncComments"
+        android:layout_below="@+id/textId"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/buttonComments" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_below="@+id/buttonAsyncComments"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Enter ID:"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/buttonPostsComments"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET POST"
+        android:id="@+id/buttonAsyncPosts"
+        android:layout_alignBottom="@+id/buttonAsyncComments"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/buttonSyncC" />
 
 </RelativeLayout>
